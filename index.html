@@ -10,58 +10,47 @@
   <div class="game-container">
     <h1 class="title">Letrado²</h1>
     <div class="grid">
-      <!-- Intentos para Horizontal1 -->
+      <!-- Intentos y letras para las palabras Horizontal1 y Horizontal2 -->
       <div class="attempts" id="attempts-Horizontal1">5</div>
-      <input maxlength="1" class="cell" data-pos="0-0">
-      <input maxlength="1" class="cell" data-pos="0-1">
-      <input maxlength="1" class="cell" data-pos="0-2">
-      <input maxlength="1" class="cell" data-pos="0-3">
-      <input maxlength="1" class="cell" data-pos="0-4">
-
-      <!-- Intentos para Vertical1 -->
-      <div class="attempts" id="attempts-Vertical1">5</div>
-      <input maxlength="1" class="cell" data-pos="1-0">
-      <input maxlength="1" class="cell" data-pos="1-4">
-
-      <input maxlength="1" class="cell" data-pos="2-0">
-      <input maxlength="1" class="cell" data-pos="2-4">
-
-      <input maxlength="1" class="cell" data-pos="3-0">
-      <input maxlength="1" class="cell" data-pos="3-4">
-
-      <!-- Intentos para Horizontal2 -->
-      <div class="attempts" id="attempts-Horizontal2">5</div>
-      <input maxlength="1" class="cell" data-pos="4-0">
-      <input maxlength="1" class="cell" data-pos="4-1">
-      <input maxlength="1" class="cell" data-pos="4-2">
-      <input maxlength="1" class="cell" data-pos="4-3">
-      <input maxlength="1" class="cell" data-pos="4-4">
+      <div class="cell-row">
+        <input maxlength="1" class="cell" data-pos="0-0">
+        <input maxlength="1" class="cell" data-pos="0-1">
+        <input maxlength="1" class="cell" data-pos="0-2">
+        <input maxlength="1" class="cell" data-pos="0-3">
+        <input maxlength="1" class="cell" data-pos="0-4">
+      </div>
       
-      <!-- Intentos para Vertical2 -->
-      <div class="attempts" id="attempts-Vertical2">5</div>
+      <!-- Espacios para las palabras Vertical1 y Vertical2 -->
+      <div class="cell-col">
+        <div class="attempts" id="attempts-Vertical1">5</div>
+        <input maxlength="1" class="cell" data-pos="1-0">
+        <input maxlength="1" class="cell" data-pos="2-0">
+        <input maxlength="1" class="cell" data-pos="3-0">
+        <input maxlength="1" class="cell" data-pos="4-0">
+      </div>
+
+      <div class="cell-col">
+        <div class="attempts" id="attempts-Vertical2">5</div>
+        <input maxlength="1" class="cell" data-pos="1-4">
+        <input maxlength="1" class="cell" data-pos="2-4">
+        <input maxlength="1" class="cell" data-pos="3-4">
+        <input maxlength="1" class="cell" data-pos="4-4">
+      </div>
+
+      <!-- Palabra Horizontal2 -->
+      <div class="attempts" id="attempts-Horizontal2">5</div>
+      <div class="cell-row">
+        <input maxlength="1" class="cell" data-pos="4-0">
+        <input maxlength="1" class="cell" data-pos="4-1">
+        <input maxlength="1" class="cell" data-pos="4-2">
+        <input maxlength="1" class="cell" data-pos="4-3">
+        <input maxlength="1" class="cell" data-pos="4-4">
+      </div>
     </div>
     <div id="solution" class="hidden">
-      <h2>Respuestas Correctas</h2>
+      <h2>Respostas Corretas</h2>
       <div class="grid">
-        <div class="cell" data-pos="0-0">P</div>
-        <div class="cell" data-pos="0-1">A</div>
-        <div class="cell" data-pos="0-2">I</div>
-        <div class="cell" data-pos="0-3">X</div>
-        <div class="cell" data-pos="0-4">O</div>
-
-        <div class="cell" data-pos="4-0">S</div>
-        <div class="cell" data-pos="4-1">A</div>
-        <div class="cell" data-pos="4-2">N</div>
-        <div class="cell" data-pos="4-3">T</div>
-        <div class="cell" data-pos="4-4">O</div>
-
-        <div class="cell" data-pos="1-0">P</div>
-        <div class="cell" data-pos="2-0">E</div>
-        <div class="cell" data-pos="3-0">I</div>
-
-        <div class="cell" data-pos="1-4">O</div>
-        <div class="cell" data-pos="2-4">S</div>
-        <div class="cell" data-pos="3-4">T</div>
+        <!-- Aquí mostramos las respuestas correctas en la misma estructura -->
       </div>
     </div>
   </div>
