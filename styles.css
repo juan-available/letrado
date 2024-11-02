@@ -53,6 +53,7 @@ body {
   color: #fff;
   border: 2px solid #555;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .attempts {
@@ -65,10 +66,20 @@ body {
   display: none;
 }
 
-#solution {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #555;
-  color: #fff;
-  border-radius: 5px;
+.correct-position {
+  background-color: #00ffff;
 }
+
+.wrong-position {
+  background-color: #ffd700;
+}
+
+.incorrect {
+  background-color: #ffffff;
+  color: #000;
+}
+
+.full-correct {
+  background-color: #ffa07a;
+}
+
