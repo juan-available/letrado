@@ -1,4 +1,5 @@
 let correctWords = {};
+const validatedWords = { Horizontal1: false, Horizontal2: false, Vertical1: false, Vertical2: false };
 
 fetch("words.json")
   .then(response => response.json())
@@ -45,11 +46,10 @@ function validateWords() {
     const cells = getCells(wordType);
     const inputWord = cells.map(cell => cell.value).join("");
 
-    if (inputWord.length < 5) return;
-
-    if (attempts[wordType] > 0) {
+    if (inputWord.length === 5 && !validatedWords[wordType]) {
       if (inputWord === correctWords[wordType]) {
         cells.forEach(cell => cell.classList.add("correct-position", "full-correct"));
+        validatedWords[wordType] = true;
       } else {
         attempts[wordType]--;
         document.getElementById(`attempts-${wordType}`).textContent = attempts[wordType];
@@ -76,23 +76,4 @@ function validateWords() {
 }
 
 function getCells(wordType) {
-  return Array.from(document.querySelectorAll(`.cell[data-pos*="${wordType}"]`));
-}
-
-function checkGameOver() {
-  const isGameOver = Object.values(attempts).every(attempt => attempt === 0);
-  if (isGameOver) {
-    document.getElementById("solution").classList.remove("hidden");
-    revealSolution();
-  }
-}
-
-function revealSolution() {
-  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
-    const cells = getCells(wordType);
-    cells.forEach((cell, index) => {
-      cell.value = correctWords[wordType][index];
-      cell.classList.add("reveal");
-    });
-  });
-}
+  return Array.from(document.querySelector
