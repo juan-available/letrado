@@ -90,3 +90,15 @@ body {
 .full-correct {
   background-color: #FFA07A; /* Naranja claro */
 }
+
+#solution-grid .cell {
+  background-color: #FFF;
+}
+
+@media (max-width: 768px) {
+  .cell {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2em;
+  }
+}
