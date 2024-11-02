@@ -11,44 +11,38 @@
     <h1 class="title">Letrado²</h1>
     <div class="grid">
       <!-- Contadores de intentos -->
-      <div class="attempts centered-attempts" id="attempts-Horizontal1" style="grid-area: H3;">5</div>
-      <div class="attempts centered-attempts" id="attempts-Vertical1" style="grid-area: D7;">5</div>
-      <div class="attempts centered-attempts" id="attempts-Vertical2" style="grid-area: L7;">5</div>
-      <div class="attempts centered-attempts" id="attempts-Horizontal2" style="grid-area: H11;">5</div>
+      <div class="attempts centered-attempts" id="attempts-Horizontal1">5</div>
+      <div class="attempts centered-attempts" id="attempts-Vertical1">5</div>
+      <div class="attempts centered-attempts" id="attempts-Vertical2">5</div>
+      <div class="attempts centered-attempts" id="attempts-Horizontal2">5</div>
 
       <!-- Estructura de palabras en cuadrícula -->
       <div class="word-grid">
         <!-- Horizontal1 y Vertical1 -->
-        <input maxlength="1" class="cell" data-pos="H1-0 V1-0" style="grid-area: F5;" id="cell-F5">
-        <input maxlength="1" class="cell" data-pos="H1-1" style="grid-area: G5;">
-        <input maxlength="1" class="cell" data-pos="H1-2" style="grid-area: H5;">
-        <input maxlength="1" class="cell" data-pos="H1-3" style="grid-area: I5;">
-        <input maxlength="1" class="cell" data-pos="H1-4 V2-0" style="grid-area: J5;">
+        <input maxlength="1" class="cell" data-pos="H1-0 V1-0" id="cell-0">
+        <input maxlength="1" class="cell" data-pos="H1-1" id="cell-1">
+        <input maxlength="1" class="cell" data-pos="H1-2" id="cell-2">
+        <input maxlength="1" class="cell" data-pos="H1-3" id="cell-3">
+        <input maxlength="1" class="cell" data-pos="H1-4 V2-0" id="cell-4">
 
         <!-- Vertical1 -->
-        <input maxlength="1" class="cell" data-pos="V1-1" style="grid-area: F6;">
-        <input maxlength="1" class="cell" data-pos="V1-2" style="grid-area: F7;">
-        <input maxlength="1" class="cell" data-pos="V1-3" style="grid-area: F8;">
-        <input maxlength="1" class="cell" data-pos="H2-0 V1-4" style="grid-area: F9;">
+        <input maxlength="1" class="cell" data-pos="V1-1" id="cell-5">
+        <input maxlength="1" class="cell" data-pos="V1-2" id="cell-6">
+        <input maxlength="1" class="cell" data-pos="V1-3" id="cell-7">
+        <input maxlength="1" class="cell" data-pos="H2-0 V1-4" id="cell-8">
 
         <!-- Vertical2 -->
-        <input maxlength="1" class="cell" data-pos="V2-1" style="grid-area: J6;">
-        <input maxlength="1" class="cell" data-pos="V2-2" style="grid-area: J7;">
-        <input maxlength="1" class="cell" data-pos="V2-3" style="grid-area: J8;">
-        <input maxlength="1" class="cell" data-pos="H2-4 V2-4" style="grid-area: J9;">
+        <input maxlength="1" class="cell" data-pos="V2-1" id="cell-9">
+        <input maxlength="1" class="cell" data-pos="V2-2" id="cell-10">
+        <input maxlength="1" class="cell" data-pos="V2-3" id="cell-11">
+        <input maxlength="1" class="cell" data-pos="H2-4 V2-4" id="cell-12">
 
         <!-- Horizontal2 -->
-        <input maxlength="1" class="cell" data-pos="H2-1" style="grid-area: G9;">
-        <input maxlength="1" class="cell" data-pos="H2-2" style="grid-area: H9;">
-        <input maxlength="1" class="cell" data-pos="H2-3" style="grid-area: I9;">
+        <input maxlength="1" class="cell" data-pos="H2-1" id="cell-13">
+        <input maxlength="1" class="cell" data-pos="H2-2" id="cell-14">
+        <input maxlength="1" class="cell" data-pos="H2-3" id="cell-15">
       </div>
     </div>
 
     <!-- Botón de validación para versión móvil -->
-    <button id="validateButton" class="validate-button hidden">Validar</button>
-
-    <div id="alert" class="alert hidden">Não conheço essa palavra.</div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+    <button
