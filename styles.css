@@ -1,76 +1,98 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+let correctWords = {};
+
+fetch("words.json")
+  .then(response => response.json())
+  .then(data => {
+    correctWords = data;
+  })
+  .catch(error => console.error("Error al cargar las palabras correctas:", error));
+
+const attempts = {
+  Horizontal1: 5,
+  Horizontal2: 5,
+  Vertical1: 5,
+  Vertical2: 5
+};
+
+document.querySelectorAll(".cell").forEach(cell => {
+  cell.addEventListener("input", () => {
+    cell.value = cell.value.toUpperCase();
+    const pos = cell.getAttribute("data-pos");
+    if (!isLastCell(pos)) {
+      const nextCell = getNextCell(pos);
+      if (nextCell) nextCell.focus();
+    }
+  });
+  cell.addEventListener("keyup", event => {
+    if (event.key === "Enter") {
+      validateWords();
+    }
+  });
+});
+
+function getNextCell(pos) {
+  const [wordType, index] = pos.split("-");
+  const nextIndex = parseInt(index) + 1;
+  return document.querySelector(`.cell[data-pos="${wordType}-${nextIndex}"]`);
 }
 
-body {
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+function isLastCell(pos) {
+  return pos.endsWith("4");
 }
 
-.game-container {
-  text-align: center;
+function validateWords() {
+  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
+    const cells = getCells(wordType);
+    const inputWord = cells.map(cell => cell.value).join("");
+
+    if (inputWord.length < 5) return;
+
+    if (attempts[wordType] > 0) {
+      if (inputWord === correctWords[wordType]) {
+        cells.forEach(cell => cell.classList.add("correct-position", "full-correct"));
+      } else {
+        attempts[wordType]--;
+        document.getElementById(`attempts-${wordType}`).textContent = attempts[wordType];
+
+        cells.forEach((cell, index) => {
+          const correctLetter = correctWords[wordType][index];
+
+          if (cell.value === correctLetter) {
+            cell.classList.add("correct-position");
+          } else if (correctWords[wordType].includes(cell.value)) {
+            cell.classList.add("wrong-position");
+          } else {
+            cell.classList.add("incorrect");
+          }
+        });
+
+        if (attempts[wordType] === 0) {
+          cells.forEach(cell => cell.disabled = true);
+          checkGameOver();
+        }
+      }
+    }
+  });
 }
 
-.title {
-  font-size: 2em;
-  color: #ff6347;
-  margin-bottom: 20px;
+function getCells(wordType) {
+  return Array.from(document.querySelectorAll(`.cell[data-pos*="${wordType}"]`));
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  gap: 10px;
-  padding: 10px;
-  position: relative;
+function checkGameOver() {
+  const isGameOver = Object.values(attempts).every(attempt => attempt === 0);
+  if (isGameOver) {
+    document.getElementById("solution").classList.remove("hidden");
+    revealSolution();
+  }
 }
 
-.cell-row, .cell-col {
-  display: flex;
-}
-
-.cell-row {
-  justify-content: center;
-}
-
-.cell-col {
-  flex-direction: column;
-  align-items: center;
-}
-
-.cell {
-  width: 40px;
-  height: 40px;
-  font-size: 1.5em;
-  text-align: center;
-  background-color: #444;
-  color: #fff;
-  border: 2px solid #555;
-  border-radius: 5px;
-  text-transform: uppercase;
-}
-
-.centered-attempts {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  color: #ff6347;
-}
-
-.alert {
-  margin-top: 20px;
-  color: red;
-  font-size: 1em;
-}
-
-.hidden {
-  display: none;
+function revealSolution() {
+  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
+    const cells = getCells(wordType);
+    cells.forEach((cell, index) => {
+      cell.value = correctWords[wordType][index];
+      cell.classList.add("reveal");
+    });
+  });
 }
