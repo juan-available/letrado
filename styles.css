@@ -29,6 +29,7 @@ body {
   grid-template-columns: auto auto auto;
   gap: 10px;
   padding: 10px;
+  position: relative;
 }
 
 .cell-row, .cell-col {
@@ -56,10 +57,34 @@ body {
   text-transform: uppercase;
 }
 
-.attempts {
-  font-size: 1.2em;
-  color: #ff6347;
+.attempts-top {
+  grid-row: 1;
+  grid-column: 2 / span 5;
   text-align: center;
+  color: #ff6347;
+}
+
+.attempts-bottom {
+  grid-row: 6;
+  grid-column: 2 / span 5;
+  text-align: center;
+  color: #ff6347;
+}
+
+.attempts-left {
+  grid-row: 2 / span 4;
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  color: #ff6347;
+}
+
+.attempts-right {
+  grid-row: 2 / span 4;
+  grid-column: 6;
+  display: flex;
+  align-items: center;
+  color: #ff6347;
 }
 
 .hidden {
@@ -82,4 +107,3 @@ body {
 .full-correct {
   background-color: #ffa07a;
 }
-
