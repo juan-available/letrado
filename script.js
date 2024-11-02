@@ -25,11 +25,11 @@ document.querySelectorAll(".cell").forEach(cell => {
     }
   });
   cell.addEventListener("keyup", event => {
-    if (event.key === "Enter") {
-      validateWords();
-    }
+    if (event.key === "Enter") validateWords();
   });
 });
+
+document.getElementById("validateButton").addEventListener("click", validateWords);
 
 function getNextCell(pos) {
   const [wordType, index] = pos.split("-");
@@ -66,4 +66,17 @@ function validateWords() {
           }
         });
 
-        if (attempts[wordType] === 0
+        if (attempts[wordType] === 0) showSolution();
+      }
+    }
+  });
+}
+
+function getCells(wordType) {
+  return Array.from(document.querySelectorAll(`.cell[data-pos*="${wordType}"]`));
+}
+
+function showSolution() {
+  const solutionGrid = document.getElementById("solution-grid");
+  solutionGrid.innerHTML = "";  // Código para mostrar las respuestas correctas.
+}
