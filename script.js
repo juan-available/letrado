@@ -1,4 +1,3 @@
-// Cargar palabras correctas
 let correctWords = {};
 fetch("words.json")
   .then(response => response.json())
@@ -15,9 +14,8 @@ const attempts = {
 };
 
 document.querySelectorAll(".cell").forEach(cell => {
-  cell.addEventListener("input", event => {
+  cell.addEventListener("input", () => {
     cell.value = cell.value.toUpperCase();
-    moveToNext(cell);
   });
   cell.addEventListener("keyup", event => {
     if (event.key === "Enter") {
@@ -26,53 +24,57 @@ document.querySelectorAll(".cell").forEach(cell => {
   });
 });
 
-function moveToNext(cell) {
-  const cells = Array.from(document.querySelectorAll(".cell"));
-  const index = cells.indexOf(cell);
-  if (index < cells.length - 1) {
-    cells[index + 1].focus();
+function validateWords() {
+  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
+    if (attempts[wordType] > 0) {
+      const cells = getCells(wordType);
+      const inputWord = cells.map(cell => cell.value).join("");
+
+      if (inputWord === correctWords[wordType]) {
+        cells.forEach(cell => cell.classList.add("correct-position", "full-correct"));
+      } else {
+        attempts[wordType]--;
+        document.getElementById(`attempts-${wordType}`).textContent = attempts[wordType];
+
+        cells.forEach((cell, index) => {
+          const correctLetter = correctWords[wordType][index];
+
+          if (cell.value === correctLetter) {
+            cell.classList.add("correct-position");
+          } else if (correctWords[wordType].includes(cell.value)) {
+            cell.classList.add("wrong-position");
+          } else {
+            cell.classList.add("incorrect");
+          }
+        });
+
+        if (attempts[wordType] === 0) {
+          cells.forEach(cell => cell.disabled = true);
+          checkGameOver();
+        }
+      }
+    }
+  });
+}
+
+function getCells(wordType) {
+  return Array.from(document.querySelectorAll(`.cell[data-pos*="${wordType}"]`));
+}
+
+function checkGameOver() {
+  const isGameOver = Object.values(attempts).every(attempt => attempt === 0);
+  if (isGameOver) {
+    document.getElementById("solution").classList.remove("hidden");
+    revealSolution();
   }
 }
 
-function validateWords() {
-  let gameOver = false;
-
-  document.querySelectorAll(".cell").forEach(cell => {
-    const [row, col] = cell.dataset.pos.split('-').map(Number);
-    let correctLetter, wordType;
-
-    if (row === 0) {
-      correctLetter = correctWords.Horizontal1[col];
-      wordType = "Horizontal1";
-    } else if (row === 4) {
-      correctLetter = correctWords.Horizontal2[col];
-      wordType = "Horizontal2";
-    } else if (col === 0) {
-      correctLetter = correctWords.Vertical1[row];
-      wordType = "Vertical1";
-    } else if (col === 4) {
-      correctLetter = correctWords.Vertical2[row];
-      wordType = "Vertical2";
-    }
-
-    if (cell.value === correctLetter) {
-      cell.classList.add("correct-position");
-      cell.classList.remove("wrong-position", "incorrect");
-    } else if (correctWords[wordType].includes(cell.value)) {
-      cell.classList.add("wrong-position");
-      cell.classList.remove("correct-position", "incorrect");
-    } else {
-      cell.classList.add("incorrect");
-      cell.classList.remove("correct-position", "wrong-position");
-    }
-  });
-
-  // Verificar palabras completas
-  Object.keys(attempts).forEach(wordType => {
-    const word = document.querySelectorAll(`[data-pos*="${wordType}"]`);
-    if (Array.from(word).every(cell => cell.classList.contains("correct-position"))) {
-      word.forEach(cell => cell.classList.add("full-correct"));
-    }
+function revealSolution() {
+  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
+    const cells = getCells(wordType);
+    cells.forEach((cell, index) => {
+      cell.value = correctWords[wordType][index];
+      cell.classList.add("full-correct");
+    });
   });
 }
-
