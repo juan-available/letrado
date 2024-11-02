@@ -10,8 +10,8 @@
   <div class="game-container">
     <h1 class="title">Letrado²</h1>
     <div class="grid">
-      <!-- Intentos para cada palabra -->
-      <div class="attempts" id="attempts-Horizontal1">5</div>
+      <!-- Intentos para Horizontal1 -->
+      <div class="attempts-top" id="attempts-Horizontal1">5</div>
       <div class="cell-row">
         <input maxlength="1" class="cell" data-pos="0-0" id="cell-H1-V1">
         <input maxlength="1" class="cell" data-pos="0-1">
@@ -20,9 +20,9 @@
         <input maxlength="1" class="cell" data-pos="0-4" id="cell-H1-V2">
       </div>
 
-      <!-- Letras para Vertical1 y Vertical2 -->
+      <!-- Letras para Vertical1 y Vertical2 con intentos a los lados -->
+      <div class="attempts-left" id="attempts-Vertical1">5</div>
       <div class="cell-col">
-        <div class="attempts" id="attempts-Vertical1">5</div>
         <input maxlength="1" class="cell" data-pos="1-0">
         <input maxlength="1" class="cell" data-pos="2-0">
         <input maxlength="1" class="cell" data-pos="3-0">
@@ -30,15 +30,14 @@
       </div>
 
       <div class="cell-col">
-        <div class="attempts" id="attempts-Vertical2">5</div>
         <input maxlength="1" class="cell" data-pos="1-4">
         <input maxlength="1" class="cell" data-pos="2-4">
         <input maxlength="1" class="cell" data-pos="3-4">
         <input maxlength="1" class="cell" data-pos="4-4" id="cell-H2-V2">
       </div>
+      <div class="attempts-right" id="attempts-Vertical2">5</div>
 
-      <!-- Palabra Horizontal2 -->
-      <div class="attempts" id="attempts-Horizontal2">5</div>
+      <!-- Palabra Horizontal2 con intentos abajo -->
       <div class="cell-row">
         <input maxlength="1" class="cell" data-pos="4-0" id="cell-H2-V1">
         <input maxlength="1" class="cell" data-pos="4-1">
@@ -46,6 +45,7 @@
         <input maxlength="1" class="cell" data-pos="4-3">
         <input maxlength="1" class="cell" data-pos="4-4" id="cell-H2-V2">
       </div>
+      <div class="attempts-bottom" id="attempts-Horizontal2">5</div>
     </div>
     <div id="solution" class="hidden">
       <h2>Respostas Corretas</h2>
