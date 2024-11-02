@@ -18,9 +18,9 @@ document.querySelectorAll(".cell").forEach(cell => {
   cell.addEventListener("input", () => {
     cell.value = cell.value.toUpperCase();
     const pos = cell.getAttribute("data-pos");
-    const nextCell = getNextCell(pos);
-    if (nextCell && cell.value && !isLastCell(pos)) {
-      nextCell.focus();
+    if (!isLastCell(pos)) {
+      const nextCell = getNextCell(pos);
+      if (nextCell) nextCell.focus();
     }
   });
   cell.addEventListener("keyup", event => {
@@ -31,13 +31,13 @@ document.querySelectorAll(".cell").forEach(cell => {
 });
 
 function getNextCell(pos) {
-  const [row, col] = pos.split("-").map(Number);
-  const nextPos = `${row}-${col + 1}`;
-  return document.querySelector(`.cell[data-pos="${nextPos}"]`);
+  const [wordType, index] = pos.split("-");
+  const nextIndex = parseInt(index) + 1;
+  return document.querySelector(`.cell[data-pos="${wordType}-${nextIndex}"]`);
 }
 
 function isLastCell(pos) {
-  return pos.endsWith("4"); // Posiciones terminadas en "4" son las últimas en cada palabra
+  return pos.endsWith("4");
 }
 
 function validateWords() {
