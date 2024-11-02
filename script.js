@@ -15,12 +15,24 @@ const attempts = {
 };
 
 document.querySelectorAll(".cell").forEach(cell => {
+  cell.addEventListener("input", event => {
+    cell.value = cell.value.toUpperCase();
+    moveToNext(cell);
+  });
   cell.addEventListener("keyup", event => {
     if (event.key === "Enter") {
       validateWords();
     }
   });
 });
+
+function moveToNext(cell) {
+  const cells = Array.from(document.querySelectorAll(".cell"));
+  const index = cells.indexOf(cell);
+  if (index < cells.length - 1) {
+    cells[index + 1].focus();
+  }
+}
 
 function validateWords() {
   let gameOver = false;
@@ -43,22 +55,24 @@ function validateWords() {
       wordType = "Vertical2";
     }
 
-    if (cell.value.toUpperCase() !== correctLetter) {
-      attempts[wordType] -= 1;
-      document.getElementById(`attempts-${wordType}`).textContent = attempts[wordType];
-
-      if (attempts[wordType] <= 0) {
-        gameOver = true;
-        cell.classList.add("incorrect");
-        cell.disabled = true;
-      }
+    if (cell.value === correctLetter) {
+      cell.classList.add("correct-position");
+      cell.classList.remove("wrong-position", "incorrect");
+    } else if (correctWords[wordType].includes(cell.value)) {
+      cell.classList.add("wrong-position");
+      cell.classList.remove("correct-position", "incorrect");
     } else {
-      cell.classList.add("correct");
+      cell.classList.add("incorrect");
+      cell.classList.remove("correct-position", "wrong-position");
     }
   });
 
-  if (gameOver) {
-    document.getElementById("solution").classList.remove("hidden");
-    document.querySelectorAll(".cell").forEach(cell => cell.disabled = true);
-  }
+  // Verificar palabras completas
+  Object.keys(attempts).forEach(wordType => {
+    const word = document.querySelectorAll(`[data-pos*="${wordType}"]`);
+    if (Array.from(word).every(cell => cell.classList.contains("correct-position"))) {
+      word.forEach(cell => cell.classList.add("full-correct"));
+    }
+  });
 }
+
