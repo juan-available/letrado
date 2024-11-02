@@ -1,10 +1,19 @@
 let correctWords = {};
+let validWords = [];
+
 fetch("words.json")
   .then(response => response.json())
   .then(data => {
     correctWords = data;
   })
   .catch(error => console.error("Error al cargar las palabras correctas:", error));
+
+fetch("dictionary.json")
+  .then(response => response.json())
+  .then(data => {
+    validWords = data.words;
+  })
+  .catch(error => console.error("Error al cargar el diccionario:", error));
 
 const attempts = {
   Horizontal1: 5,
@@ -16,6 +25,9 @@ const attempts = {
 document.querySelectorAll(".cell").forEach(cell => {
   cell.addEventListener("input", () => {
     cell.value = cell.value.toUpperCase();
+    if (cell.nextElementSibling && cell.value) {
+      cell.nextElementSibling.focus();
+    }
   });
   cell.addEventListener("keyup", event => {
     if (event.key === "Enter") {
@@ -26,10 +38,20 @@ document.querySelectorAll(".cell").forEach(cell => {
 
 function validateWords() {
   ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
-    if (attempts[wordType] > 0) {
-      const cells = getCells(wordType);
-      const inputWord = cells.map(cell => cell.value).join("");
+    const cells = getCells(wordType);
+    const inputWord = cells.map(cell => cell.value).join("");
 
+    if (inputWord.length < 5) return;
+
+    if (!validWords.includes(inputWord)) {
+      document.getElementById("alert").classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("alert").classList.add("hidden");
+      }, 2000);
+      return;
+    }
+
+    if (attempts[wordType] > 0) {
       if (inputWord === correctWords[wordType]) {
         cells.forEach(cell => cell.classList.add("correct-position", "full-correct"));
       } else {
@@ -66,15 +88,3 @@ function checkGameOver() {
   if (isGameOver) {
     document.getElementById("solution").classList.remove("hidden");
     revealSolution();
-  }
-}
-
-function revealSolution() {
-  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
-    const cells = getCells(wordType);
-    cells.forEach((cell, index) => {
-      cell.value = correctWords[wordType][index];
-      cell.classList.add("full-correct");
-    });
-  });
-}
