@@ -25,10 +25,10 @@ body {
 }
 
 .grid {
-  position: relative;
+  position: center;
   display: grid;
-  grid-template-columns: repeat(12, 40px);
-  grid-template-rows: repeat(12, 40px);
+  grid-template-columns: repeat(5, 40px);
+  grid-template-rows: repeat(5, 40px);
   gap: 5px;
 }
 
