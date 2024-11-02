@@ -18,7 +18,7 @@ const attempts = {
 document.querySelectorAll(".cell").forEach(cell => {
   cell.addEventListener("input", () => {
     cell.value = cell.value.toUpperCase();
-    const pos = cell.getAttribute("data-pos");
+    const pos = cell.getAttribute("data-pos").split(" ")[0]; // Primera palabra en caso de intersección
     if (!isLastCell(pos)) {
       const nextCell = getNextCell(pos);
       if (nextCell) nextCell.focus();
@@ -34,7 +34,7 @@ document.querySelectorAll(".cell").forEach(cell => {
 function getNextCell(pos) {
   const [wordType, index] = pos.split("-");
   const nextIndex = parseInt(index) + 1;
-  return document.querySelector(`.cell[data-pos="${wordType}-${nextIndex}"]`);
+  return document.querySelector(`.cell[data-pos*="${wordType}-${nextIndex}"]`);
 }
 
 function isLastCell(pos) {
@@ -66,14 +66,4 @@ function validateWords() {
           }
         });
 
-        if (attempts[wordType] === 0) {
-          cells.forEach(cell => cell.disabled = true);
-          checkGameOver();
-        }
-      }
-    }
-  });
-}
-
-function getCells(wordType) {
-  return Array.from(document.querySelector
+        if (attempts[wordType] === 0
