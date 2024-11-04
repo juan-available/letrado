@@ -1,82 +1,78 @@
-let correctWords = {};
-const validatedWords = { Horizontal1: false, Horizontal2: false, Vertical1: false, Vertical2: false };
-
-fetch("words.json")
-  .then(response => response.json())
-  .then(data => {
-    correctWords = data;
-  })
-  .catch(error => console.error("Error al cargar las palabras correctas:", error));
-
-const attempts = {
-  Horizontal1: 5,
-  Horizontal2: 5,
-  Vertical1: 5,
-  Vertical2: 5
+const maxAttempts = 5;
+let attempts = {
+  Horizontal1: maxAttempts,
+  Vertical1: maxAttempts,
+  Vertical2: maxAttempts,
+  Horizontal2: maxAttempts,
 };
 
-document.querySelectorAll(".cell").forEach(cell => {
-  cell.addEventListener("input", () => {
-    cell.value = cell.value.toUpperCase();
-    const pos = cell.getAttribute("data-pos").split(" ")[0]; // Primera palabra en caso de intersección
-    if (!isLastCell(pos)) {
-      const nextCell = getNextCell(pos);
-      if (nextCell) nextCell.focus();
-    }
-  });
-  cell.addEventListener("keyup", event => {
-    if (event.key === "Enter") validateWords();
+// Define las palabras correctas
+const correctWords = {
+  Horizontal1: "FELIZ",
+  Vertical1: "FORTE",
+  Vertical2: "LESTE",
+  Horizontal2: "ZONAL"
+};
+
+document.querySelectorAll(".cell").forEach((cell, index) => {
+  cell.addEventListener("input", (e) => {
+    const nextCell = document.getElementById(`cell-${index + 1}`);
+    if (e.target.value && nextCell) nextCell.focus();
   });
 });
 
-document.getElementById("validateButton").addEventListener("click", validateWords);
-
-function getNextCell(pos) {
-  const [wordType, index] = pos.split("-");
-  const nextIndex = parseInt(index) + 1;
-  return document.querySelector(`.cell[data-pos*="${wordType}-${nextIndex}"]`);
-}
-
-function isLastCell(pos) {
-  return pos.endsWith("4");
-}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") validateWords();
+});
 
 function validateWords() {
-  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(wordType => {
-    const cells = getCells(wordType);
-    const inputWord = cells.map(cell => cell.value).join("");
+  ["Horizontal1", "Horizontal2", "Vertical1", "Vertical2"].forEach(validateWord);
+}
 
-    if (inputWord.length === 5 && !validatedWords[wordType]) {
-      if (inputWord === correctWords[wordType]) {
-        cells.forEach(cell => cell.classList.add("correct-position", "full-correct"));
-        validatedWords[wordType] = true;
+function validateWord(word) {
+  const cells = Array.from(document.querySelectorAll(`.cell[data-pos^="${word.charAt(0)}"]`));
+  const guess = cells.map(cell => cell.value).join("");
+
+  if (guess.length !== 5 || attempts[word] <= 0) return;
+
+  if (guess === correctWords[word]) {
+    cells.forEach(cell => {
+      cell.style.backgroundColor = "lightorange";
+      cell.style.color = "skyblue";
+    });
+  } else {
+    attempts[word]--;
+    updateAttemptsDisplay(word);
+    cells.forEach((cell, i) => {
+      if (correctWords[word][i] === guess[i]) {
+        cell.style.backgroundColor = "skyblue";
+      } else if (correctWords[word].includes(guess[i])) {
+        cell.style.backgroundColor = "yellow";
       } else {
-        attempts[wordType]--;
-        document.getElementById(`attempts-${wordType}`).textContent = attempts[wordType];
-
-        cells.forEach((cell, index) => {
-          const correctLetter = correctWords[wordType][index];
-
-          if (cell.value === correctLetter) {
-            cell.classList.add("correct-position");
-          } else if (correctWords[wordType].includes(cell.value)) {
-            cell.classList.add("wrong-position");
-          } else {
-            cell.classList.add("incorrect");
-          }
-        });
-
-        if (attempts[wordType] === 0) showSolution();
+        cell.style.backgroundColor = "white";
       }
-    }
+    });
+  }
+
+  if (attempts[word] <= 0) endGame();
+}
+
+function updateAttemptsDisplay(word) {
+  document.getElementById(`attempts-${word}`).textContent = attempts[word];
+}
+
+function endGame() {
+  document.querySelectorAll(".cell").forEach(cell => (cell.disabled = true));
+  revealWords();
+}
+
+function revealWords() {
+  Object.keys(correctWords).forEach(word => {
+    const cells = Array.from(document.querySelectorAll(`.cell[data-pos^="${word.charAt(0)}"]`));
+    cells.forEach((cell, i) => {
+      cell.value = correctWords[word][i];
+      cell.style.backgroundColor = "white";
+      cell.style.color = "black";
+    });
   });
-}
-
-function getCells(wordType) {
-  return Array.from(document.querySelectorAll(`.cell[data-pos*="${wordType}"]`));
-}
-
-function showSolution() {
-  const solutionGrid = document.getElementById("solution-grid");
-  solutionGrid.innerHTML = "";  // Código para mostrar las respuestas correctas.
 }
