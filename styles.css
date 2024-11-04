@@ -5,13 +5,13 @@
 }
 
 body {
-  background-color: #333;
-  color: #fff;
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: white;
 }
 
 .game-container {
@@ -19,81 +19,59 @@ body {
 }
 
 .title {
-  font-size: 2em;
-  color: #ff6347;
-  margin-bottom: 21px;
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 .grid {
-  position: center;
   display: grid;
-  grid-template-columns: repeat(5, 40px);
-  grid-template-rows: repeat(5, 40px);
-  gap: 5px;
+  grid-template-areas: 
+    "attempts-Horizontal1 attempts-Horizontal1 attempts-Horizontal1"
+    "attempts-Vertical1 word-grid attempts-Vertical2"
+    "attempts-Horizontal2 attempts-Horizontal2 attempts-Horizontal2";
+  gap: 10px;
 }
 
+.attempts {
+  font-size: 1.5rem;
+}
+
+#attempts-Horizontal1 { grid-area: attempts-Horizontal1; }
+#attempts-Vertical1 { grid-area: attempts-Vertical1; }
+#attempts-Vertical2 { grid-area: attempts-Vertical2; }
+#attempts-Horizontal2 { grid-area: attempts-Horizontal2; }
+
 .word-grid {
-  display: contents;
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  gap: 5px;
+  grid-area: word-grid;
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
-  font-size: 1.5em;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
   text-align: center;
-  background-color: #444;
-  color: #fff;
-  border: 2px solid #555;
-  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #000;
+  color: black;
   text-transform: uppercase;
-}
-
-.centered-attempts {
-  font-size: 1.2em;
-  color: #ff6347;
-}
-
-.alert {
-  margin-top: 20px;
-  color: red;
-  font-size: 1em;
-}
-
-.hidden {
-  display: none;
 }
 
 .validate-button {
   display: none;
   margin-top: 20px;
   padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 20px;
-  background-color: #000;
-  color: #fff;
+  background-color: black;
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-/* Estilos específicos para móviles */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .validate-button {
     display: inline-block;
   }
-}
-
-.correct-position {
-  background-color: #87CEFA; /* Celeste */
-}
-
-.wrong-position {
-  background-color: #FFD700; /* Amarillo */
-}
-
-.incorrect {
-  background-color: #FFF; /* Blanco */
-}
-
-.full-correct {
-  background-color: #FFA07A; /* Naranja claro */
 }
